@@ -8,13 +8,13 @@ La procédure suivante décrit l'installation de toutes les dépendances requise
 
 ### 1. Installation d’Anaconda
 
-Veuillez suivre ce guide afin d’installer Anaconda sur Windows.
+Veuillez suivre ce [guide](https://docs.anaconda.com/anaconda/install/windows/) afin d’installer Anaconda sur Windows.
 
 ### 2. Installer Cuda
 
 Si vous n'avez pas de carte graphique de marque Nvidia ou que vous ne souhaitez pas utiliser cette dernière pour l'inférence, passez cette étape.
 
-Afin de pouvoir profiter de la carte graphique pendant l’inférence, mais surtout pendant l’apprentissage, il faut installer l’API CUDA de Nvidia. Pour cela veuillez télécharger l'éxécutable [ici](https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_version=11&target_type=exe_local) et suivre ce [guide].
+Afin de pouvoir profiter de la carte graphique pendant l’inférence, mais surtout pendant l’apprentissage, il faut installer l’API CUDA de Nvidia. Pour cela veuillez télécharger l'éxécutable [ici](https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_version=11&target_type=exe_local) et suivre ce [guide](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html).
 
 ### 3. Télécharger le projet depuis le git
 
@@ -59,6 +59,24 @@ Ouvrez l'Anaconda Powershell Prompt et entrez les lignes suivantes
 ```
 conda activate myenv
 cd path\to\the\project\
-python --help
+python combined_detection.py --help
 ```
+La dernière ligne affiche les différends arguments que peut accepter le programme. Ces arguments sont les suivants :  
+-m / --model        permet de préciser le chemin du modèle ONNX à utiliser.  
+-v / --video_path   permet de donner le chemin de la vidéo à analyser.  
+-o / --output_dir   permet de donner le chemin du dossier là où sera crée si demandé le dossier contenant la vidéo annotée et le fichier csv.  
+-s / --score_thr    permet de fixer un seuil au score de confiance des cubes, en dessous duquel les cubes ne seront pas dessinés sur la vidéo. Ce seuil est par défaut fixé à 0.3.  
+-S / --start        permet d'indiquer un nombre de seconde à ignorer au début de la vidéo.  
+-E / --end          permet d'indiquer un nombre de seconde à ignorer à la fin de la vidéo.  
+-n / --num_hands    permet d'indiquer le nombre maximum de main à détecter sur la vidéo.  
+-c / --csv          permet de demander au programme de écrire le fichier csv contenant les traces des objets suivis.  
+-w / --write_video  permet de demander au programme d'écrire la vidéo avec les objets suivis dessinés dessus.  
+-d / --display      permet de demander au programme d'afficher chaque trame traitée avec les objets suivis dessinés dessus.  
+
+La ligne pour éxecuter le programme pourra donc ressembler à cela :
+```
+python .\combined_detection.py -m ..\Project_Data\ONNX_Models\yolox_s.onnx -v C:\Users\theon\Documents\Stage_XLIM\20220330T072838Z\scenevideo.mp4 -o ..\Results -n 2 -c -w -d
+```
+
+Entrer à chaque fois les chemin vers le modèle, la vidéo et dossier des résultats peut vite devenir rébarbatif. Pour remédier à cela vous pouvez aller modifier les valeurs par défaut dans la première fonction nommée "make_parser" dans le fichier "combined_detection.py"
 
