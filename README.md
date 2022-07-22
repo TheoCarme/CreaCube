@@ -62,16 +62,18 @@ cd path\to\the\project\
 python combined_detection.py --help
 ```
 La dernière ligne affiche les différends arguments que peut accepter le programme. Ces arguments sont les suivants :  
--m / --model        permet de préciser le chemin du modèle ONNX à utiliser.  
--v / --video_path   permet de donner le chemin de la vidéo à analyser.  
--o / --output_dir   permet de donner le chemin du dossier là où sera crée si demandé le dossier contenant la vidéo annotée et le fichier csv.  
--s / --score_thr    permet de fixer un seuil au score de confiance des cubes, en dessous duquel les cubes ne seront pas dessinés sur la vidéo. Ce seuil est par défaut fixé à 0.3.  
--S / --start        permet d'indiquer un nombre de seconde à ignorer au début de la vidéo.  
--E / --end          permet d'indiquer un nombre de seconde à ignorer à la fin de la vidéo.  
--n / --num_hands    permet d'indiquer le nombre maximum de main à détecter sur la vidéo.  
--c / --csv          permet de demander au programme de écrire le fichier csv contenant les traces des objets suivis.  
--w / --write_video  permet de demander au programme d'écrire la vidéo avec les objets suivis dessinés dessus.  
--d / --display      permet de demander au programme d'afficher chaque trame traitée avec les objets suivis dessinés dessus.  
+| Argument | Description |
+| :------: | :---------- |
+| -m / --model | Permet de préciser le chemin du modèle ONNX à utiliser. |
+| -v / --video_path | Permet de donner le chemin de la vidéo à analyser. |
+| -o / --output_dir | Permet de donner le chemin du dossier là où sera crée si demandé le dossier contenant la vidéo annotée et le fichier csv. |
+| -s / --score_thr | Permet de fixer un seuil au score de confiance des cubes, en dessous duquel les cubes ne seront pas dessinés sur la vidéo. Ce seuil est par défaut fixé à 0.3. |
+| -S / --start | Permet d'indiquer un nombre de seconde à ignorer au début de la vidéo. |
+| -E / --end | Permet d'indiquer un nombre de seconde à ignorer à la fin de la vidéo. |
+| -n / --num_hands | Permet d'indiquer le nombre maximum de main à détecter sur la vidéo. Ce maximum est par défaut fixé à 4. |
+| -c / --csv | Permet de demander au programme de écrire le fichier csv contenant les traces des objets suivis. |
+| -w / --write_video | Permet de demander au programme d'écrire la vidéo avec les objets suivis dessinés dessus. |
+| -d / --display | Permet de demander au programme d'afficher chaque trame traitée avec les objets suivis dessinés dessus. |
 
 La ligne pour éxecuter le programme pourra donc ressembler à cela :
 ```
