@@ -14,7 +14,7 @@ Veuillez suivre ce [guide](https://docs.anaconda.com/anaconda/install/windows/) 
 
 Si vous n'avez pas de carte graphique de marque Nvidia ou que vous ne souhaitez pas utiliser cette dernière pour l'inférence, passez cette étape.
 
-Afin de pouvoir profiter de la carte graphique pendant l’inférence, mais surtout pendant l’apprentissage, il faut installer l’API CUDA de Nvidia. Pour cela veuillez télécharger l'éxécutable [ici](https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_version=11&target_type=exe_local) et suivre ce [guide](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html).
+Afin de pouvoir profiter de la carte graphique pendant l’inférence, mais surtout pendant l’apprentissage, il faut installer l’API CUDA de Nvidia. Pour cela veuillez télécharger l'éxécutable [ici](https://developer.nvidia.com/cuda-11-6-2-download-archive?target_os=Windows&target_arch=x86_64&target_version=11&target_type=exe_local) et suivre ce [guide](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html).
 
 ### 3. Télécharger le projet depuis le git
 
@@ -33,11 +33,10 @@ conda install -c conda-forge pycocotools
 ```
 Si vous avez une carte graphique Nvidia et que vous avez installé VUDA, vous pouvez maintenant installer CUDA pour python. Pour cela entrez la commande qui correspond à la version de CUDA que vous avez installé précédement.
 ```
-conda install cuda -c nvidia/label/cuda-11.X.X
+conda install cuda -c nvidia/label/cuda-11.6.2
 ```
-Installez maintenant torch. Les 2 premières commandes sont pour l'installation avec support GPU et la dernière pour les installations CPU.
+Installez maintenant torch. La première commande est pour l'installation avec support GPU et la deuxième pour l'installation CPU.
 ```
-pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
 pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
 
 pip install torch torchvision torchaudio
