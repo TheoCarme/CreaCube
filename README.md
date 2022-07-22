@@ -18,7 +18,11 @@ Afin de pouvoir profiter de la carte graphique pendant l’inférence, mais surt
 
 ### 3. Télécharger le projet depuis le git
 
-Clonez ce git et télécharger [ici](https://user-images.githubusercontent.com/55946370/180219702-0046b8ee-8824-46c8-a823-bb14a8e2eb41.png) les fichiers nécessaire selon vos besoins :
+Clonez ce git à l'aide de la commande suivante :
+```
+git clone https://github.com/TheoCarme/CreaCube.git
+```
+Puis téléchargez [ici](https://user-images.githubusercontent.com/55946370/180219702-0046b8ee-8824-46c8-a823-bb14a8e2eb41.png) les fichiers nécessaire selon vos besoins :
   1. Le dossier "ONNX_Models" contient le modèle pour l'inférence.
   2. Le dossier "YOLOX_outputs" contient les checkpoints correspondant à l'apprentissage des différentes tailles de modèles YOLOX.
   3. Le dossier "COCO" contient le jeu de données au format COCO.
