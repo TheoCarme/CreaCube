@@ -1,0 +1,33 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pycocotools = ">=2.0.2"
+torch = ">=1.7"
+torchvision = "*"
+torchaudio = "*"
+alive-progress = "*"
+matplotlib = "*"
+mediapipe = "*"
+numpy = "*"
+opencv-python = "*"
+loguru = "*"
+scikit-image = "*"
+tqdm = "*"
+pillow = "*"
+thop = "*"
+ninja = "*"
+tabulate = "*"
+tensorboard = "*"
+pandas = "*"
+onnx = "*"
+onnxruntime = "*"
+onnxruntime-gpu = "*"
+onnx-simplifier = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
