@@ -33,6 +33,8 @@ Pour créer l'environement Anaconda adéquat ouvrez l'Anaconda Powershell Prompt
 ```
 conda create -n "myenv" python=3.9.12
 conda activate myenv
+```
+```
 conda install -c conda-forge pycocotools
 ```
 Si vous avez une carte graphique Nvidia et que vous avez installé VUDA, vous pouvez maintenant installer CUDA pour python. Pour cela entrez la commande qui correspond à la version de CUDA que vous avez installé précédement.
@@ -42,12 +44,15 @@ conda install cuda -c nvidia/label/cuda-11.6.2
 Installez maintenant torch. La première commande est pour l'installation avec support GPU et la deuxième pour l'installation CPU.
 ```
 pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
-
+```
+```
 pip install torch torchvision torchaudio
 ```
 Ensuite déplacer vous dans le répertoire où vous avez téléchargé le git puis dans le dossier nommé "YOLOX" et entrez les lignes suivantes :
 ```
 cd path\to\the\project\YOLOX
+```
+```
 pip install -r requirements.txt
 pip install -v -e .
 ```
