@@ -2,7 +2,7 @@
 
 L’ordinateur sur lequel a été développé le projet était composé d’un processeur Intel Xeon CPU E5-1650 v3, de 16 Go de mémoire vive et d’une carte graphique Nvidia Geforce GTX 1070.
 
-## Installation
+## Installation sous Windows 10
 
 La procédure suivante décrit l'installation de toutes les dépendances requises dans un environnement Anaconda sur un ordinateur fonctionnant sur Windows 10.
 
@@ -22,7 +22,7 @@ Clonez ce git à l'aide de la commande suivante :
 ```
 git clone https://github.com/TheoCarme/CreaCube.git
 ```
-Puis téléchargez [ici](https://user-images.githubusercontent.com/55946370/180219702-0046b8ee-8824-46c8-a823-bb14a8e2eb41.png) les fichiers nécessaire selon vos besoins :
+Puis téléchargez [ici](https://drive.google.com/drive/folders/183w4dgVz06fKd1bsC_wdGqFAW9lKTLOe?usp=sharing) les fichiers nécessaire selon vos besoins :
   1. Le dossier "ONNX_Models" contient le modèle pour l'inférence.
   2. Le dossier "YOLOX_outputs" contient les checkpoints correspondant à l'apprentissage des différentes tailles de modèles YOLOX.
   3. Le dossier "COCO" contient le jeu de données au format COCO.
@@ -56,7 +56,7 @@ cd path\to\the\project\YOLOX
 pip install -r requirements.txt
 pip install -v -e .
 ```
-Il se peut que lors de l'exécution de la dernière ligne il soit retourné une erreur comme quoi la version de
+Il se peut que lors de l'exécution de la dernière ligne il soit retourné une erreur comme quoi la version de de quelque chose en rapport avec C++ n'est pas installé (je préciserai le quelque chose dès que j'aurai pu reproduire l'erreur).
 Dans ce cas télécharger les Outils de génération Microsoft C++ [ici](https://visualstudio.microsoft.com/fr/visual-cpp-build-tools/) et lors de l'intalation cochez uniquement la case correspondant au C++. Ceci fait réexécuter la dernière ligne.
 
 ## Utilisation
