@@ -79,14 +79,81 @@ La dernière ligne affiche les différends arguments que peut accepter le progra
 | -S / --start | Permet d'indiquer un nombre de seconde à ignorer au début de la vidéo. |
 | -E / --end | Permet d'indiquer un nombre de seconde à ignorer à la fin de la vidéo. |
 | -n / --num_hands | Permet d'indiquer le nombre maximum de main à détecter sur la vidéo. Ce maximum est par défaut fixé à 4. |
-| -c / --csv | Permet de demander au programme de écrire le fichier csv contenant les traces des objets suivis. |
+| -c / --csv | Permet de demander au programme d'écrire le fichier csv contenant les traces des objets suivis. |
 | -w / --write_video | Permet de demander au programme d'écrire la vidéo avec les objets suivis dessinés dessus. |
 | -d / --display | Permet de demander au programme d'afficher chaque trame traitée avec les objets suivis dessinés dessus. |
 
 La ligne pour éxecuter le programme pourra donc ressembler à cela :
 ```
-python .\combined_detection.py -m ..\Project_Data\ONNX_Models\yolox_s.onnx -v C:\Users\theon\Documents\Stage_XLIM\20220330T072838Z\scenevideo.mp4 -o ..\Results -n 2 -c -w -d
+python .\combined_detection.py -m ..\Project_Data\ONNX_Models\yolox_s.onnx -v path/to/the/video -o ..\Results -n 2 -c -w -d
 ```
 
 Entrer à chaque fois les chemin vers le modèle, la vidéo et dossier des résultats peut vite devenir rébarbatif. Pour remédier à cela vous pouvez aller modifier les valeurs par défaut dans la première fonction nommée "make_parser" dans le fichier "combined_detection.py"
 
+## Création/extension du jeu de données
+
+### 1. Extraction de trames depuis une vidéo
+
+Pour ce faire utilisez le programme Manage_Dataset/extract_frames.py dont les options sont les suivantes :
+| Argument | Description |
+| :------: | :---------- |
+| -i / --input_video | Permet d'indiquer le chemin vers le fichier de la vidéo dont seront extraites les images. |
+| -o / --output_dir | Permet d'indiquer le chemin vers le dossier où seront stockées les images extraites. |
+| -n / --nb_frames | Permet de fixer le nombre de trames à extraire de la vidéo. |
+
+Les images extraites par ce programme seront extraites à intervalle régulier, intervalle défini selon le nombre de trames demandées.
+
+### 2. Annotations des images
+
+Vous aurez besoin pour cela d'installer labelme comme expliqué [ici](https://github.com/wkentaro/labelme#installation), vous n'avez pas besoin de créer un nouvel environment et pouvez installer tout ça dans l'environment déjà crée.
+
+Ensuite lancer labelme avec la commande suivante :
+```
+labelme --nodata --autosave
+```
+Une fois la fenêtre labelme ouverte cliquez sur "Fichier" puis "Change Output Dir" et choisissez le dossier dans lequel vous voulez enregistrer  
+Ensuite cliquez sur "Fichier" puis "Open Dir" et choisissez le dossier contenant les images à annoter.  
+Maintenant utilisez l'outil "Create Polygons" (disponible sur la barre d'outils à gauche) pour dessiner des polygônes englobants chaqun des cubes.  
+A la finalisation de chaque polygône choisissez le label a lui associer ou entrez le nom d'un nouveau label.  
+En cas d'erreur de manipulation, au lieu de supprimer puis recréer un nouveau polygône, vous pouvez éditer les polygônes avec l'outil "Edit Polygons" (toujours sur la barre d'outils à gauche)  
+Dans le cas où deux images successives sont très similaires, l'outil "Duplicate Polygons" (toujours sur la barre d'outils à gauche) peut être pratique.  
+
+### 3. Mette le jeu de données au format COCO
+
+Premièrement installez le paquet qui permet la conversion :
+```
+pip install -U labelme2coco
+```
+Ensuite effectuer la conversion en entrant cette commande en y indiquant le chemin du dossier contenant les fichiers json crées par labelme et le taux de partage désiré entre le jeu d'entraînement et celui de validation :
+```
+labelme2coco path/to/labelme/dir --train_split_rate 0.85
+```
+Les deux fichiers json au format seront déposés dans le dossier path/to/labelme/dir/run/labelme2coco  
+  
+Ensuite déplacez ces deux fichiers à "CreaCube/YOLOX/dataset/COCO/annotations/" et renommez les "instances_train2017.json" et "instances_val2017.json"
+Enfin pour déplacer les images afin qu'elle correspondent à la [structure](https://github.com/chlMercier/CreaCubeXlim/blob/main/YOLOX/datasets/README.md) attendue pour un jeu de données au format COCO exécuter le programme "split_images.py" qui se trouve dans le dossier "CreaCube/Manage_Dataset". Si vous n'avez pas toucher à la structure du dossier les paramètres par défaut fonctionneront très bien, sinon tapez la commande suivante et modifiez les paramètres en conséquence :
+```
+python split_images.py --help
+```
+
+### 4. Changer les dimensions des images (besoin de debugging)
+
+Il se peut que vous vouliez changez les dimensions des images afin par exemple que l'apprentissage prenne moins de temps (pas sûr de ça) ou qu'il soit moins gourmand en mémoire. Il est plus pratique de faire cela après les précédentes étapes afin de pouvoir profiter d'une bonne résolution d'image lors de l'étape d'annotation.  
+Pour changer ces dimensions exécutez le programme "change_image_dim.py" se trouvant dans le dossier "CreaCube/Manage_Dataset". Auparavant lancez la commande suivante afin de savoir paramètrer le programme :
+```
+python change_image_dim.py --help
+```
+
+### 5. Extension du jeu de données
+
+Pour ce faire installez le paquet adéquat :
+```
+git clone https://github.com/mohamadmansourX/Merge_COCO_FILES.git
+cd Merge_COCO_FILES
+```
+Ensuite exécuter le programme "Merge_COCO_FILES/merge.py" pour fusionner les fichier json "train" et "val" de chaque jeu de données :
+```
+python merge.py Json1.json Json2.json OUTPUt_JSON.json
+```
+Faites attention à ce que les classes (cube_bleu...) à la fin des des fichiers json à fusionner soient dans le même ordre.
+Ensuite il ne reste plus qu'à rassembler les images d'entraînement et de validation dans deux dossiers uniques.
