@@ -18,7 +18,7 @@ class Cubes_Detector():
     def __init__(self, model=r"C:\Users\tcarme\Documents\Stage_XLIM\YOLOX\yolox_s.onnx", input_shape=(640, 640)):
         super(Cubes_Detector, self).__init__()
 
-        self.session = onnxruntime.InferenceSession(model)
+        self.session = onnxruntime.InferenceSession(model, providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
         self.input_shape = input_shape
         self.final_boxes = None
         self.final_scores = None
