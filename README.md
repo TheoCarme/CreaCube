@@ -50,7 +50,7 @@ pip install torch torchvision torchaudio
 ```
 Ensuite déplacer vous dans le répertoire où vous avez téléchargé le git puis dans le dossier nommé "YOLOX" et entrez les lignes suivantes :
 ```
-cd path\to\the\project\YOLOX
+cd path\to\the\project\YOLOX_0.3.0
 ```
 ```
 pip install -r requirements.txt
@@ -59,9 +59,13 @@ pip install -v -e .
 Il se peut que lors de l'exécution de la dernière ligne il soit retourné une erreur comme quoi la version de de quelque chose en rapport avec C++ n'est pas installé (je préciserai le quelque chose dès que j'aurai pu reproduire l'erreur).
 Dans ce cas télécharger les Outils de génération Microsoft C++ [ici](https://visualstudio.microsoft.com/fr/visual-cpp-build-tools/) et lors de l'intalation cochez uniquement la case correspondant au C++. Ceci fait réexécuter la dernière ligne.
 
+## Installation sous Ubuntu
+
+Voir 
+
 ## Utilisation
 
-### 1. Inférence
+### 1. Aide sur la commande
 
 Ouvrez l'Anaconda Powershell Prompt et entrez les lignes suivantes
 ```
@@ -89,6 +93,21 @@ python .\combined_detection.py -m ..\Project_Data\ONNX_Models\yolox_s.onnx -v pa
 ```
 
 Entrer à chaque fois les chemin vers le modèle, la vidéo et dossier des résultats peut vite devenir rébarbatif. Pour remédier à cela vous pouvez aller modifier les valeurs par défaut dans la première fonction nommée "make_parser" dans le fichier "combined_detection.py"
+
+### 2. Exemple
+
+J'ai ajouté 3 sous-dossiers (ignorés par git) videos, onyx_models et yolox_outputs, contenant :
+- videos
+  - une vidéo de test p359.mp4 (téléchargé [ici](https://creamaker.univ-cotedazur.fr/))
+- onyx_models
+  - yolox_s.onnx (téléchargé [ici](https://drive.google.com/drive/folders/1Wp4CAXRcb4OCIt-8F-fsc5UlX-_H_CzD))
+- yolox_outputs
+  - dossier vide avant de faire tourner la commande
+
+Nous pouvons alors générer la sortie du modèle pour une des vidéos :
+```
+python combined_detection.py -m onyx_models/yolox_s.onnx -v videos/p359.mp4 -o yolox_outputs -n 2 -c -w -d
+```
 
 ## Création/extension du jeu de données
 
@@ -130,7 +149,7 @@ labelme2coco path/to/labelme/dir --train_split_rate 0.85
 ```
 Les deux fichiers json au format seront déposés dans le dossier path/to/labelme/dir/run/labelme2coco  
   
-Ensuite déplacez ces deux fichiers à "CreaCube/YOLOX/dataset/COCO/annotations/" et renommez les "instances_train2017.json" et "instances_val2017.json"
+Ensuite déplacez ces deux fichiers à "CreaCube/YOLOX_0.3.0/dataset/COCO/annotations/" et renommez les "instances_train2017.json" et "instances_val2017.json"
 Enfin pour déplacer les images afin qu'elle correspondent à la [structure](https://github.com/chlMercier/CreaCubeXlim/blob/main/YOLOX/datasets/README.md) attendue pour un jeu de données au format COCO exécuter le programme "split_images.py" qui se trouve dans le dossier "CreaCube/Manage_Dataset". Si vous n'avez pas toucher à la structure du dossier les paramètres par défaut fonctionneront très bien, sinon tapez la commande suivante et modifiez les paramètres en conséquence :
 ```
 python split_images.py --help
@@ -157,3 +176,22 @@ python merge.py Json1.json Json2.json OUTPUt_JSON.json
 ```
 Faites attention à ce que les classes (cube_bleu...) à la fin des des fichiers json à fusionner soient dans le même ordre.
 Ensuite il ne reste plus qu'à rassembler les images d'entraînement et de validation dans deux dossiers uniques.
+
+## Apprentissage
+
+Je n'ai pas encore réussi à finir un nouvel entraînement, j'ai toujours une erreur en cachant une autre qui fait s'échouer l'apprentissage à la fin de la première époque, ce qui est déjà mieux que lors de mes précédents essais.  
+Il ressort de mes différentes lectures sur la section "issues" du github de YOLOX qu'il se peut que l'apprentissage fontcionne mieux avec une installation sous linux ou une ne passant pas par Anaconda.
+
+Une fois le jeu de données prêt, l'apprentissage sur des données personnelles requiert seulement la création d'un fichier exp personnalisé.
+Celui que j'ai crée se trouve au chemin suivant : "CreaCube/YOLOX_0.3.0/exps/example/custom/yolox_s.py"
+Si vous avez besoin de le personnaliser plus avant, vous trouverez la classe dont il hérite au chemin suivant : "CreaCube/YOLOX_0.3.0/yolox/exp/yolox_base.py".  
+Vous trouverez tous les paramètre que vous pouvez modifier dans la fonction "__init__" de la classe, il suffit de les redéfinir dans la même fonction "__init__" du fichier personnalisé.
+
+Ensuite vous pouvez prendre connaissances des différentes options qu'accepte la fonction d'entraînement de YOLOX avec la commande suivante :
+```
+python tools/train.py --help
+```
+Voici pour exemple la commande que j'ai tapé qui a crée le moins d'ereurs :
+```
+python .\tools\train.py -f .\exps\example\custom\yolox_s.py -d 1 -b 1 --fp16 -c .\YOLOX_outputs\yolox_s\best_ckpt.pth
+```
