@@ -61,7 +61,7 @@ Dans ce cas télécharger les Outils de génération Microsoft C++ [ici](https:/
 
 ## Installation sous Ubuntu
 
-Voir 
+Voir [ici](https://github.com/TheoCarme/CreaCube/blob/TheoCarme-YOLOX-0.3.0/README_ubuntu.md)
 
 ## Utilisation
 
