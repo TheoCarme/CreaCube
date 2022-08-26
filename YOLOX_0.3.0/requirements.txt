@@ -1,0 +1,23 @@
+# TODO: Update with exact module version
+alive_progress
+mediapipe
+numpy
+torch>=1.7
+opencv_python
+loguru
+scikit-image
+tqdm
+Pillow
+thop
+ninja
+tabulate
+tensorboard
+pandas
+
+# verified versions
+# pycocotools corresponds to https://github.com/ppwwyyxx/cocoapi
+pycocotools>=2.0.2
+onnx
+onnxruntime
+onnxruntime-gpu
+onnx-simplifier
